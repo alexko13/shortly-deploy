@@ -7,8 +7,7 @@ module.exports = function(grunt) {
         seperator: ';',
       },
       dist: {
-        src: ['public/client/link.js', 'public/client/links.js', 'public/client/router.js', 'public/client/app.js', 
-        'public/client/linksView.js', 'public/client/linkView.js', 'public/client/createLinkViews.js'],
+        src: ['public/client/*.js'],
         dest: 'public/dist/built.js'
       }
     },
@@ -35,7 +34,7 @@ module.exports = function(grunt) {
       my_target: {
         files: {
           'public/dist/built.js' : ['public/dist/built.js'],
-          'public/style.css' : ['public/style.css'],
+          //'public/style.css' : ['public/style.css'],
           'public/lib/backbone.js' : ['public/lib/backbone.js'],
           'public/lib/handlebars.js' : ['public/lib/handlebars.js'],
           'public/lib/jquery.js' : ['public/lib/jquery.js'],
