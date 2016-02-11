@@ -44,11 +44,11 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
+      files: {src: [
+        'public/client/*.js', 'lib/*.js', 'app/collections/*.js', 'app/models/*.js'
+      ]},
       options: {
-        force: 'true',
+        //force: 'true',
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
@@ -81,6 +81,14 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+    'heroku-deploy': {
+      production: {
+        deployBranch: 'prod' //master
+      },
+      staging: {
+        deployBranch: 'staging'
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -91,6 +99,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-heroku-deploy');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -113,27 +122,23 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('deploy', function(n) {
+    if(grunt.option('prod')){
+      grunt.option('prod');
+    }
+    grunt.task.run(['jshint', 'test', 'heroku', 'upload']);
+  });
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run([''])
+      //console.log('hello');
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
-
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
-
-  // grunt.registerTask('minify', [
-  //   'concat:dist',
-  //   'uglify'
-  // ]);
   
-  grunt.registerTask('heroku',
-    ['concat:dist', 'uglify']
-    );
+  grunt.registerTask('heroku',[
+    'concat:dist', 'uglify'
+  ]);
 };
