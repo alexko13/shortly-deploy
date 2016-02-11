@@ -128,9 +128,12 @@ module.exports = function(grunt) {
     // add your deploy tasks here
   ]);
 
-  grunt.registerTask('minify', [
-    'concat:dist',
-    'uglify'
-  ]);
-
+  // grunt.registerTask('minify', [
+  //   'concat:dist',
+  //   'uglify'
+  // ]);
+  
+  grunt.registerTask('heroku',
+    ['concat:dist', 'uglify']
+    );
 };
