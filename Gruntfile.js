@@ -58,6 +58,14 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      options: {
+        keepSpecialComments: 0
+      },
+      dist: {
+        files: {
+          'public/lib/style.min.css' : 'public/style.css'
+        }
+      }
     },
 
     watch: {
@@ -79,16 +87,15 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push heroku master',
+        options: {
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
       }
     },
-    'heroku-deploy': {
-      production: {
-        deployBranch: 'prod' //master
-      },
-      staging: {
-        deployBranch: 'staging'
-      }
-    },
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -99,10 +106,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-heroku-deploy');
 
   grunt.registerTask('server-dev', function (target) {
-    // Running nodejs in a different process and displaying output on the main console
     var nodemon = grunt.util.spawn({
          cmd: 'grunt',
          grunt: true,
@@ -131,14 +136,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
-      grunt.task.run([''])
-      //console.log('hello');
+      grunt.task.run([ 'shell' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
   
   grunt.registerTask('heroku',[
-    'concat:dist', 'uglify'
+    'concat:dist', 'uglify', 'cssmin'
   ]);
 };
