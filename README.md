@@ -10,5 +10,4 @@ Shortly is a url shortener similar to bit.ly that tracks the number of times sho
 - Backbone.js
 - Express/Node.js
 - MongoDB
-- Karma
 - Grunt
